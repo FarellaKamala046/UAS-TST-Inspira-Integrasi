@@ -7,7 +7,7 @@ services:
     container_name: inspira_container
     # Menghubungkan port 8080 di STB ke port 80 di dalam Docker
     ports:
-      - "8080:80"
+      - "8081:80"
     # Menghubungkan folder di STB dengan folder di dalam Docker (agar file sinkron)
     volumes:
       - .:/var/www/html

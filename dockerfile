@@ -23,7 +23,7 @@ COPY . /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # 6. Jalankan instalasi library vendor secara otomatis
-RUN composer install --no-interaction --optimize-autoloader
+RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 # 7. Atur izin akses folder agar SQLite bisa menulis data
 RUN chown -R www-data:www-data /var/www/html/writable \

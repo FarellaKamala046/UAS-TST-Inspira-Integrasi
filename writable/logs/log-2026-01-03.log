@@ -1,0 +1,145 @@
+CRITICAL - 2026-01-03 07:10:09 --> CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
+[Method: GET, Route: setup]
+in SYSTEMPATH\Database\Database.php on line 182.
+ 1 SYSTEMPATH\Database\Database.php(59): CodeIgniter\Database\Database->checkDbExtension('SQLite3')
+ 2 SYSTEMPATH\Database\Config.php(82): CodeIgniter\Database\Database->load([...], 'default')
+ 3 APPPATH\Controllers\Setup.php(11): CodeIgniter\Database\Config::connect()
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Setup->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+CRITICAL - 2026-01-03 07:10:21 --> CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
+[Method: GET, Route: setup]
+in SYSTEMPATH\Database\Database.php on line 182.
+ 1 SYSTEMPATH\Database\Database.php(59): CodeIgniter\Database\Database->checkDbExtension('SQLite3')
+ 2 SYSTEMPATH\Database\Config.php(82): CodeIgniter\Database\Database->load([...], 'default')
+ 3 APPPATH\Controllers\Setup.php(11): CodeIgniter\Database\Config::connect()
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Setup->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+CRITICAL - 2026-01-03 07:11:14 --> CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
+[Method: GET, Route: setup]
+in SYSTEMPATH\Database\Database.php on line 182.
+ 1 SYSTEMPATH\Database\Database.php(59): CodeIgniter\Database\Database->checkDbExtension('SQLite3')
+ 2 SYSTEMPATH\Database\Config.php(82): CodeIgniter\Database\Database->load([...], 'default')
+ 3 APPPATH\Controllers\Setup.php(11): CodeIgniter\Database\Config::connect()
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Setup->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+CRITICAL - 2026-01-03 07:13:00 --> CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
+[Method: GET, Route: setup]
+in SYSTEMPATH\Database\Database.php on line 182.
+ 1 SYSTEMPATH\Database\Database.php(59): CodeIgniter\Database\Database->checkDbExtension('SQLite3')
+ 2 SYSTEMPATH\Database\Config.php(82): CodeIgniter\Database\Database->load([...], 'default')
+ 3 APPPATH\Controllers\Setup.php(11): CodeIgniter\Database\Config::connect()
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Setup->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+ERROR - 2026-01-03 07:14:11 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: SQLite3 error: Unable to open database: unable to open database file in C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\SQLite3\Connection.php:118
+Stack trace:
+#0 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\BaseConnection.php(419): CodeIgniter\Database\SQLite3\Connection->connect(false)
+#1 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\SQLite3\Connection.php(74): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\BaseConnection.php(614): CodeIgniter\Database\SQLite3\Connection->initialize()
+#3 C:\Users\Farella\Documents\UAS_TST_FIKS\app\Controllers\Setup.php(14): CodeIgniter\Database\BaseConnection->query('CREATE TABLE IF...')
+#4 C:\Users\Farella\Documents\UAS_TST_FIKS\system\CodeIgniter.php(933): App\Controllers\Setup->index()
+#5 C:\Users\Farella\Documents\UAS_TST_FIKS\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+#6 C:\Users\Farella\Documents\UAS_TST_FIKS\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#8 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\Users\Farella\Documents\UAS_TST_FIKS\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 C:\Users\Farella\Documents\UAS_TST_FIKS\system\rewrite.php(44): require_once('C:\\Users\\Farell...')
+#11 {main}
+CRITICAL - 2026-01-03 07:14:11 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [SQLite3]: SQLite3 error: Unable to open database: unable to open database file
+[Method: GET, Route: setup]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\SQLite3\Connection.php(74): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\SQLite3\Connection->initialize()
+ 3 APPPATH\Controllers\Setup.php(14): CodeIgniter\Database\BaseConnection->query('CREATE TABLE IF NOT EXISTS boards (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT,
+            visibility TEXT DEFAULT \'public\',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Setup->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+ERROR - 2026-01-03 07:16:58 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: SQLite3 error: Unable to open database: unable to open database file in C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\SQLite3\Connection.php:118
+Stack trace:
+#0 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\BaseConnection.php(419): CodeIgniter\Database\SQLite3\Connection->connect(false)
+#1 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\SQLite3\Connection.php(74): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Database\BaseConnection.php(614): CodeIgniter\Database\SQLite3\Connection->initialize()
+#3 C:\Users\Farella\Documents\UAS_TST_FIKS\app\Controllers\Setup.php(14): CodeIgniter\Database\BaseConnection->query('CREATE TABLE IF...')
+#4 C:\Users\Farella\Documents\UAS_TST_FIKS\system\CodeIgniter.php(933): App\Controllers\Setup->index()
+#5 C:\Users\Farella\Documents\UAS_TST_FIKS\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+#6 C:\Users\Farella\Documents\UAS_TST_FIKS\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#8 C:\Users\Farella\Documents\UAS_TST_FIKS\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\Users\Farella\Documents\UAS_TST_FIKS\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 C:\Users\Farella\Documents\UAS_TST_FIKS\system\rewrite.php(44): require_once('C:\\Users\\Farell...')
+#11 {main}
+CRITICAL - 2026-01-03 07:16:58 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [SQLite3]: SQLite3 error: Unable to open database: unable to open database file
+[Method: GET, Route: setup]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\SQLite3\Connection.php(74): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\SQLite3\Connection->initialize()
+ 3 APPPATH\Controllers\Setup.php(14): CodeIgniter\Database\BaseConnection->query('CREATE TABLE IF NOT EXISTS boards (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT,
+            visibility TEXT DEFAULT \'public\',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Setup->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Setup))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+CRITICAL - 2026-01-03 07:34:34 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: boards]
+in SYSTEMPATH\BaseModel.php on line 1842.
+ 1 SYSTEMPATH\BaseModel.php(1842): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\BaseModel.php(804): CodeIgniter\BaseModel->transformDataToArray(null, 'insert')
+ 3 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert(null, true)
+ 4 APPPATH\Controllers\BoardController.php(17): CodeIgniter\Model->insert(null)
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BoardController->create()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BoardController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')
+CRITICAL - 2026-01-03 07:45:57 --> TypeError: CodeIgniter\Database\BaseBuilder::like(): Argument #2 ($match) must be of type string, array given, called in C:\Users\Farella\Documents\UAS_TST_FIKS\app\Controllers\BoardController.php on line 93
+[Method: GET, Route: pins/search]
+in SYSTEMPATH\Database\BaseBuilder.php on line 1008.
+ 1 APPPATH\Controllers\BoardController.php(93): CodeIgniter\Database\BaseBuilder->like('tags', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BoardController->searchPins()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BoardController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Farella\\Documents\\UAS_TST_FIKS\\public\\index.php')

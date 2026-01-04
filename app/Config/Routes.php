@@ -33,5 +33,5 @@ $routes->group('api', function($routes) {
     // --- BOARDS (Interaction) - Protected (Wajib Login) ---
     // Sementara kita biarkan begini, nanti kita pasang filter 'auth' di sini
     $routes->post('boards/(:num)/looks', 'BoardController::addLook/$1');
-    $routes->post('boards/(:num)/looks', 'BoardController::addLook/$1', ['filter' => 'auth']);
+    $routes->post('api/boards/(:num)/looks', 'BoardController::addLook/$1', ['filter' => 'auth']);
 });

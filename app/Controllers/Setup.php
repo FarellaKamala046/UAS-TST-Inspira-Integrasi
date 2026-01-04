@@ -380,8 +380,7 @@ class Setup extends Controller
         
         ];
 
-        $builder = $db->table('pins');
-        $builder->insertBatch($data);
+        $db->table('pins')->insertBatch($data);
 
         return "✅ Data Berhasil Masuk! Setiap baju punya banyak tags yang rapi untuk Shopee.";
     }

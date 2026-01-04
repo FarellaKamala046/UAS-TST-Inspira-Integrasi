@@ -6,7 +6,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class AuthFilter implements FilterInterface {
     public function before(RequestInterface $request, $arguments = null) {
-        die("Satpam Berhasil Mencegat!");
         $db = \Config\Database::connect();
         // Ambil token dari Header 'Authorization'
         $token = $request->getServer('HTTP_AUTHORIZATION');

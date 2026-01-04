@@ -11,11 +11,10 @@ class Setup extends Controller
         $db = \Config\Database::connect();
         $forge = \Config\Database::forge();
 
-        // Hapus tabel lama jika ada
-        $forge->dropTable('pins', true);
-
+        // $forge->dropTable('pins', true);
+        // $forge->dropTable('looks', true);
         // Tabel Pins - Struktur Paling Rapi & Minimalis
-        $db->query('CREATE TABLE pins (
+        $db->query('CREATE TABLE looks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT,
             user TEXT,
@@ -26,7 +25,9 @@ class Setup extends Controller
             
             /* item_details menyimpan JSON berisi beberapa jenis pakaian.
                Masing-masing pakaianpunya tags dalam bentuk List/Array */
-            item_details TEXT 
+            item_details TEXT,
+            shopee_link TEXT,
+            visibility TEXT DEFAULT "public"
         )');
 
         return "✅ Database di-reset! Struktur item_details dengan multiple tags sudah siap.";
@@ -380,7 +381,7 @@ class Setup extends Controller
         
         ];
 
-        $db->table('pins')->insertBatch($data);
+        $db->table('looks')->insertBatch($data);
 
         return "✅ Data Berhasil Masuk! Setiap baju punya banyak tags yang rapi untuk Shopee.";
     }

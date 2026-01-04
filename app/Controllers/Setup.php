@@ -38,6 +38,21 @@ class Setup extends Controller
             token TEXT, -- Kode rahasia login disimpan di sini
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )');
+        $db->query('CREATE TABLE boards (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        title TEXT,
+        description TEXT,
+        visibility TEXT DEFAULT "public"
+    )');
+
+    // 4. Tabel Pins (Penghubung Board dan Look) <-- ERROR KAMU DI SINI TADI
+    $db->query('CREATE TABLE pins (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        board_id INTEGER,
+        look_id INTEGER,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )');
         
          
         return "✅ Database di-reset! Struktur item_details dengan multiple tags sudah siap.";

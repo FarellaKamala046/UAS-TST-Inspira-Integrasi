@@ -6,25 +6,26 @@ use CodeIgniter\Controller;
 
 class ApiController extends Controller
 {
-    // API untuk mengambil semua data OOTD
+    // API untuk mengambil semua data OOTD dari tabel 'looks'
     public function getAllLooks()
     {
         $db = \Config\Database::connect();
-        $pins = $db->table('pins')->get()->getResultArray();
+        
+        // UBAH DISINI: Dari 'pins' menjadi 'looks'
+        $looks = $db->table('looks')->get()->getResultArray();
 
-        foreach ($pins as &$pin) {
-        // PENGAMAN: Cek dulu apakah key 'item_details' ada di kolom database
-            if (isset($pin['item_details'])) {
-                $pin['item_details'] = json_decode($pin['item_details']);
+        foreach ($looks as &$look) {
+            // Cek apakah item_details ada dan merupakan string JSON
+            if (isset($look['item_details']) && !empty($look['item_details'])) {
+                $look['item_details'] = json_decode($look['item_details']);
             } else {
-            // Jika tidak ada, kasih array kosong agar tidak error
-                $pin['item_details'] = []; 
+                $look['item_details'] = []; 
             }
         }
 
         return $this->response->setJSON([
             'status' => 'success',
-            'data'   => $pins
+            'data'   => $looks
         ]);
     }
 
@@ -32,16 +33,20 @@ class ApiController extends Controller
     public function getLookDetail($id)
     {
         $db = \Config\Database::connect();
-        $pin = $db->table('pins')->where('id', $id)->get()->getRowArray();
+        
+        // UBAH DISINI: Dari 'pins' menjadi 'looks'
+        $look = $db->table('looks')->where('id', $id)->get()->getRowArray();
 
-        if ($pin) {
-            $pin['item_details'] = json_decode($pin['item_details']);
+        if ($look) {
+            if (isset($look['item_details']) && !empty($look['item_details'])) {
+                $look['item_details'] = json_decode($look['item_details']);
+            }
             return $this->response->setJSON([
                 'status' => 'success',
-                'data'   => $pin
+                'data'   => $look
             ]);
         }
 
-        return $this->response->setJSON(['status' => 'error', 'message' => 'Pin tidak ditemukan'], 404);
+        return $this->response->setJSON(['status' => 'error', 'message' => 'OOTD tidak ditemukan'], 404);
     }
 }

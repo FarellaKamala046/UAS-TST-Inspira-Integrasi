@@ -10,13 +10,14 @@
         .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
         .status-badge { font-size: 0.75rem; vertical-align: middle; }
         .api-url { font-family: monospace; font-size: 0.7rem; color: #6c757d; word-break: break-all; }
+        .product-price { font-weight: bold; color: #198754; }
     </style>
 </head>
 <body class="bg-light">
     <div class="container py-5">
         <div class="text-center mb-5">
             <h1 class="display-5 fw-bold text-primary">✨ Tugas 3: Integrasi Platform ✨</h1>
-            <p class="lead">Integrasi API OOTD (STB Armbian) & API Produk (Cloud)</p>
+            <p class="lead text-muted">Integrasi API OOTD (STB Armbian) & API Produk (Cloud)</p>
             <div class="d-flex justify-content-center gap-2">
                 <span class="badge rounded-pill bg-dark">STB: Armbian</span>
                 <span class="badge rounded-pill bg-info text-dark">SSL: Cloudflare Tunnel</span>
@@ -36,7 +37,7 @@
                     <div id="inspira-list">
                         <div class="text-center py-5">
                             <div class="spinner-border text-primary" role="status"></div>
-                            <p class="mt-2 text-muted">Menghubungi STB Armbian...</p>
+                            <p class="mt-2 text-muted small">Menghubungi STB Armbian...</p>
                         </div>
                     </div>
                 </div>
@@ -53,7 +54,7 @@
                     <div id="clothify-list">
                         <div class="text-center py-5">
                             <div class="spinner-border text-success" role="status"></div>
-                            <p class="mt-2 text-muted">Mengambil katalog produk...</p>
+                            <p class="mt-2 text-muted small">Mengambil katalog produk...</p>
                         </div>
                     </div>
                 </div>
@@ -62,9 +63,9 @@
     </div>
 
     <script>
-        // Fungsi Helper untuk menangani Timeout (Jika STB lemot)
+        // Fungsi Helper untuk menangani Timeout agar tidak loading selamanya
         async function fetchWithTimeout(resource, options = {}) {
-            const { timeout = 8000 } = options;
+            const { timeout = 10000 } = options;
             const controller = new AbortController();
             const id = setTimeout(() => controller.abort(), timeout);
             const response = await fetch(resource, { ...options, signal: controller.signal });
@@ -78,24 +79,23 @@
             const statusBadge = document.getElementById('status-inspira');
             
             try {
-                // Menggunakan domain hyphenated yang sudah pakai SSL
                 const response = await fetchWithTimeout('https://inspira-container.otwdochub.my.id/api/looks');
-                
-                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const result = await response.json();
-                const looks = result.data || result; // Menangani jika data dibungkus .data atau array langsung
+                // Inspira menggunakan properti "data"
+                const looks = result.data || []; 
 
-                if (!Array.isArray(looks) || looks.length === 0) {
-                    listDiv.innerHTML = '<div class="alert alert-info">Database STB kosong.</div>';
+                if (looks.length === 0) {
+                    listDiv.innerHTML = '<div class="alert alert-info small">Database STB kosong.</div>';
                 } else {
                     let html = '';
                     looks.slice(0, 5).forEach(item => {
                         html += `
                         <div class="card mb-3 border-start border-4 border-primary bg-light shadow-sm">
                             <div class="card-body py-2">
-                                <h6 class="fw-bold mb-1">${item.title || 'No Title'}</h6>
-                                <p class="small text-muted mb-0">${item.description || 'Tidak ada deskripsi'}</p>
+                                <h6 class="fw-bold mb-1">${item.title || 'Untitled'}</h6>
+                                <p class="small text-muted mb-0">${item.description || 'No description available'}</p>
                             </div>
                         </div>`;
                     });
@@ -106,21 +106,12 @@
 
             } catch (err) {
                 statusBadge.className = "badge bg-danger status-badge";
-                statusBadge.innerText = "Error";
-                
-                let errorType = "Gagal Terhubung";
-                if (err.name === 'AbortError') errorType = "Koneksi Timeout (STB Lemot)";
-                
+                statusBadge.innerText = "Offline/CORS Error";
                 listDiv.innerHTML = `
-                <div class="alert alert-danger shadow-sm">
-                    <strong class="d-block mb-1">⚠️ ${errorType}</strong>
-                    <small>${err.message}</small>
-                    <hr class="my-2">
-                    <ul class="small mb-0 ps-3">
-                        <li>Pastikan STB Armbian menyala.</li>
-                        <li>Cek apakah Cloudflare Tunnel aktif.</li>
-                        <li>Pastikan header CORS di BaseController.php sudah benar.</li>
-                    </ul>
+                <div class="alert alert-danger shadow-sm py-2">
+                    <strong class="d-block small">⚠️ Koneksi Gagal</strong>
+                    <p class="mb-0 small">${err.message === 'AbortError' ? 'Timeout (STB lambat)' : err.message}</p>
+                    <p class="mt-2 mb-0 x-small text-secondary">Solusi: Pastikan header OPTIONS di BaseController.php sudah dipull & container direstart.</p>
                 </div>`;
             }
         }
@@ -132,13 +123,14 @@
 
             try {
                 const response = await fetchWithTimeout('https://clothify.otwdochub.my.id/products');
-                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
                 const result = await response.json();
-                const prods = Array.isArray(result) ? result : (result.data || []);
+                // Clothify menggunakan properti "products", bukan "data"
+                const prods = result.products || []; 
 
                 if (prods.length === 0) {
-                    listDiv.innerHTML = '<div class="alert alert-info">Katalog produk teman kosong.</div>';
+                    listDiv.innerHTML = '<div class="alert alert-info small">Katalog produk teman kosong.</div>';
                 } else {
                     let html = '';
                     prods.slice(0, 5).forEach(p => {
@@ -146,10 +138,10 @@
                         <div class="card mb-3 border-start border-4 border-success bg-light shadow-sm">
                             <div class="card-body py-2 d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="fw-bold mb-0">${p.name || p.title}</h6>
-                                    <small class="text-success fw-bold">Rp ${(p.price || 0).toLocaleString()}</small>
+                                    <h6 class="fw-bold mb-0 small">${p.name || p.title}</h6>
+                                    <span class="product-price small">Rp ${(p.price || 0).toLocaleString()}</span>
                                 </div>
-                                <span class="badge bg-outline-success text-success border border-success">Produk</span>
+                                <span class="badge bg-outline-success text-success border border-success x-small">Market</span>
                             </div>
                         </div>`;
                     });
@@ -160,16 +152,12 @@
 
             } catch (err) {
                 statusBadge.className = "badge bg-warning text-dark status-badge";
-                statusBadge.innerText = "Offline";
-                listDiv.innerHTML = `
-                <div class="alert alert-warning shadow-sm">
-                    <strong class="d-block mb-1">⚠️ API Teman Tidak Merespon</strong>
-                    <small>${err.message}</small>
-                </div>`;
+                statusBadge.innerText = "Error";
+                listDiv.innerHTML = `<div class="alert alert-warning py-2 small">⚠️ Gagal mengambil Clothify: ${err.message}</div>`;
             }
         }
 
-        // Jalankan semua fungsi saat halaman siap
+        // Eksekusi saat halaman dimuat
         window.addEventListener('DOMContentLoaded', () => {
             loadInspira();
             loadClothify();

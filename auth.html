@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspira - Join Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-bg: #fff5f8;
+            --accent-pink: #ff4d8d;
+        }
+        body { 
+            background-color: var(--pink-bg); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0;
+        }
+        .auth-card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 30px rgba(255, 77, 141, 0.1); 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+        }
+        /* PERBAIKAN LOGO: Diperbesar sesuai request */
+        .auth-logo { 
+            width: 110px; 
+            height: auto; 
+            margin-bottom: 15px; 
+        }
+        .auth-title { font-weight: 800; color: #333; margin-bottom: 25px; }
+        .form-control { 
+            border-radius: 12px; 
+            border: 1px solid #ffe0e9; 
+            padding: 12px 15px; 
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        .form-control:focus {
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 0 0.25 row rgba(255, 77, 141, 0.1);
+        }
+        .btn-pink { 
+            background: var(--accent-pink); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            padding: 12px; 
+            font-weight: 700; 
+            width: 100%; 
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-pink:hover { background: #e63e76; transform: translateY(-2px); }
+        .auth-toggle-text { font-size: 0.85rem; color: #888; margin-top: 20px; }
+        .auth-toggle-link { 
+            cursor: pointer; 
+            color: var(--accent-pink); 
+            font-weight: 700; 
+            text-decoration: none; 
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <img src="./logo-inspira.png" alt="Logo" class="auth-logo">
+        <h2 class="auth-title" id="auth-title">Welcome Back!</h2>
+        
+        <form id="auth-form">
+            <div id="register-fields" style="display: none;">
+                <input type="text" id="username" class="form-control" placeholder="Username">
+            </div>
+            <input type="email" id="email" class="form-control" placeholder="Email Address" required>
+            <input type="password" id="password" class="form-control" placeholder="Password" required>
+            
+            <button type="submit" class="btn-pink" id="auth-btn">Login</button>
+        </form>
+
+        <p class="auth-toggle-text">
+            <span id="toggle-desc">Don't have an account?</span> 
+            <span class="auth-toggle-link" onclick="toggleAuth()">Sign Up</span>
+        </p>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        // Fungsi Tukar tampilan Login/Register
+        function toggleAuth() {
+            isLogin = !isLogin;
+            const title = document.getElementById('auth-title');
+            const btn = document.getElementById('auth-btn');
+            const desc = document.getElementById('toggle-desc');
+            const link = document.querySelector('.auth-toggle-link');
+            const regFields = document.getElementById('register-fields');
+
+            title.innerText = isLogin ? "Welcome Back!" : "Create Account";
+            btn.innerText = isLogin ? "Login" : "Register";
+            desc.innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+            link.innerText = isLogin ? "Sign Up" : "Login";
+            regFields.style.display = isLogin ? 'none' : 'block';
+        }
+
+        document.getElementById('auth-form').onsubmit = async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            
+            const endpoint = isLogin ? '/api/login' : '/api/register';
+            
+            // Menggunakan FormData karena AuthController menggunakan getPost()
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+            if (!isLogin) {
+                formData.append('username', username);
+            }
+
+            try {
+                const res = await fetch(`https://inspira-container.otwdochub.my.id${endpoint}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    if (isLogin) {
+                        // SIMPAN SEMUA DATA (id, token, user_name)
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('id', data.id); // PENTING: Untuk fitur Save
+                        localStorage.setItem('user_name', data.user); // PENTING: Untuk Profile
+                        
+                        window.location.href = 'index.html'; // Pindah ke Home
+                    } else {
+                        // ALUR REGISTER: Beri notifikasi lalu pindah ke mode Login otomatis
+                        alert("Registrasi Berhasil! Silakan Login menggunakan akun baru Anda.");
+                        toggleAuth(); 
+                        document.getElementById('password').value = ""; // Kosongkan password demi keamanan
+                    }
+                } else {
+                    alert("Error: " + (data.message || "Gagal memproses permintaan."));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Gagal terhubung ke STB. Pastikan server aktif dan CORS sudah diatur.");
+            }
+        };
+    </script>
+</body>
+</html>

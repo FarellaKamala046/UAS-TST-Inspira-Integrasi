@@ -3,131 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inspira - Pinterest Pink Edition</title>
+    <title>Inspira x Clothify - Shop the Look</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --pink-light: #fce4ec;
-            --pink-accent: #ff4d6d;
-            --pink-hover: #ff758f;
+            --pink-bg: #fff0f3;
+            --pink-light: #ffe4e9;
+            --pink-accent: #ff4d8d;
+            --pink-hover: #e63e76;
+            --text-dark: #4a4a4a;
         }
-        body { 
-            background-color: #fff5f7; 
+        body {
+            background-color: var(--pink-bg);
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #4a4a4a;
+            color: var(--text-dark);
         }
-        /* Pinterest Masonry Grid */
-        .masonry-grid {
-            column-count: 2; /* 2 kolom di mobile */
-            column-gap: 15px;
-            padding: 15px;
+        
+        /* Header Gradasi */
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            /* Gradasi Merah - Pink Tua - Pink Muda - Putih */
+            background: linear-gradient(to right, #d32f2f, #c2185b, #e91e63, #f06292, #f8bbd0, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
         }
-        @media (min-width: 768px) { .masonry-grid { column-count: 3; } }
-        @media (min-width: 1200px) { .masonry-grid { column-count: 4; } }
+        .header-subtitle { font-size: 1.1rem; color: #888; }
 
+        /* Masonry Layout */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Lebar kartu seragam */
+            grid-gap: 24px;
+            padding: 24px 0;
+        }
+
+        /* Kartu Pin */
         .pin-card {
             background: white;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            break-inside: avoid;
+            border-radius: 24px;
             overflow: hidden;
-            border: 1px solid var(--pink-light);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            height: 100%; /* Memastikan kartu mengisi tinggi grid */
+            display: flex;
+            flex-direction: column;
         }
-        .pin-card:hover { transform: scale(1.02); }
-        .pin-image { width: 100%; display: block; }
+        .pin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.15);
+        }
 
-        /* Button Overlay ala Pinterest */
+        /* Gambar yang Rapi */
+        .pin-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 125%; /* Rasio aspek 4:5 (portrait) untuk keseragaman */
+            overflow: hidden;
+        }
+        .pin-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Memotong gambar agar pas di wadah */
+            transition: transform 0.5s ease;
+        }
+        .pin-card:hover .pin-image { transform: scale(1.05); }
+
+        /* Overlay Tombol */
         .pin-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; justify-content: space-between;
-            padding: 15px; opacity: 0; transition: 0.3s;
+            top: 0; left: 0; right: 0;
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         .pin-card:hover .pin-overlay { opacity: 1; }
 
-        .btn-pin { 
-            background: var(--pink-accent); color: white; border: none;
-            border-radius: 20px; padding: 8px 15px; font-weight: bold; align-self: flex-end;
+        .btn-save {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--pink-accent);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .btn-pin:hover { background: var(--pink-hover); color: white; }
+        .btn-save:hover { background: var(--pink-accent); color: white; }
 
+        /* Info Kartu */
+        .pin-info { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
+        .pin-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: #333; }
+        .pin-user { font-size: 0.8rem; color: var(--pink-accent); font-weight: 600; margin-bottom: 8px; display: block; }
+        .pin-desc { font-size: 0.85rem; color: #666; line-height: 1.4; margin-bottom: 16px; flex-grow: 1; }
+
+        /* Tombol Get the Look */
         .btn-shop {
-            background: white; color: black; border-radius: 20px;
-            padding: 8px 12px; font-size: 0.8rem; font-weight: bold; text-decoration: none;
-            display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--pink-accent);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+            border: none;
         }
+        .btn-shop:hover { background: var(--pink-hover); color: white; }
+        .btn-shop.disabled { background: #e0e0e0; color: #999; pointer-events: none; }
 
-        .pin-info { padding: 12px; }
-        .user-tag { font-size: 0.75rem; color: var(--pink-accent); font-weight: bold; }
-        .pin-title { font-size: 0.9rem; font-weight: bold; margin-top: 4px; }
+        /* Loading */
+        .loading-container { display: flex; justify-content: center; padding: 50px; }
+        .spinner-border { color: var(--pink-accent); }
     </style>
 </head>
 <body>
 
-    <nav class="navbar bg-white sticky-top shadow-sm py-3 px-4 mb-4">
-        <h2 class="h5 fw-bold mb-0 text-primary">💖 Inspira <span class="text-muted fw-normal">X Clothify</span></h2>
-        <div class="d-flex gap-2">
-            <span class="badge bg-light text-dark rounded-pill border">OOTD STB</span>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="header-title">💖 Inspira X Clothify</h1>
+            <p class="header-subtitle mt-2">Temukan inspirasi gaya dan belanja langsung tampilannya!</p>
         </div>
-    </nav>
 
-    <div class="container-fluid">
-        <div id="pinterest-gallery" class="masonry-grid">
-            <div class="text-center w-100 py-5">
-                <div class="spinner-border text-pink-accent" role="status"></div>
-                <p class="mt-2 text-pink-accent">Gathering inspiration...</p>
+        <div id="gallery-container">
+            <div class="loading-container">
+                <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
             </div>
         </div>
     </div>
 
     <script>
-        async function loadGallery() {
-            const gallery = document.getElementById('pinterest-gallery');
+        // --- KONFIGURASI API ---
+        const API_LOOKS = 'https://inspira-container.otwdochub.my.id/api/looks';
+        const API_PRODUCTS = 'https://clothify.otwdochub.my.id/products';
+
+        // --- FUNGSI UTAMA ---
+        async function initGallery() {
+            const container = document.getElementById('gallery-container');
+            
             try {
-                // Fetch data dari API kamu
-                const response = await fetch('https://inspira-container.otwdochub.my.id/api/looks');
-                const result = await response.json();
-                const looks = result.data || [];
+                // 1. Ambil data dari kedua API secara paralel
+                const [looksRes, productsRes] = await Promise.all([
+                    fetch(API_LOOKS),
+                    fetch(API_PRODUCTS)
+                ]);
 
-                let html = '';
-                looks.forEach(item => {
-                    // Logika Tag: Ambil tag pertama untuk link Shopee
-                    const tag = item.item_details && item.item_details[0] ? item.item_details[0].tags[0] : 'fashion';
-                    const shopeeLink = `https://clothify.otwdochub.my.id/products`; // Arahkan ke teman
+                const looksData = await looksRes.json();
+                const productsData = await productsRes.json();
 
-                    html += `
-                    <div class="pin-card shadow-sm">
-                        <img src="${item.image_url}" class="pin-image" alt="${item.title}">
-                        
-                        <div class="pin-overlay">
-                            <button class="btn-pin" onclick="savePin(${item.id})">Save</button>
-                            <a href="${shopeeLink}" target="_blank" class="btn-shop">🛒 Get the Look</a>
+                const looks = looksData.data || [];
+                const products = productsData.products || [];
+
+                container.innerHTML = '<div class="masonry-grid"></div>';
+                const grid = container.querySelector('.masonry-grid');
+
+                // 2. Proses setiap OOTD
+                looks.forEach(look => {
+                    // Kumpulkan semua tags dari outfit ini menjadi satu array lowercase
+                    let lookTags = [];
+                    if (look.item_details) {
+                        look.item_details.forEach(item => {
+                            if (item.tags) {
+                                lookTags = lookTags.concat(item.tags.map(t => t.toLowerCase()));
+                            }
+                        });
+                    }
+
+                    // 3. Logika Pencocokan Produk Cerdas
+                    // Mencari produk dengan jumlah tag yang sama paling banyak
+                    let bestMatchProduct = null;
+                    let maxMatchedTags = 0;
+
+                    products.forEach(product => {
+                        if (product.tags) {
+                            const productTags = product.tags.split(',').map(t => t.trim().toLowerCase());
+                            // Hitung berapa tag produk ini yang ada di lookTags
+                            const matchedCount = productTags.filter(tag => lookTags.includes(tag)).length;
+
+                            if (matchedCount > maxMatchedTags) {
+                                maxMatchedTags = matchedCount;
+                                bestMatchProduct = product;
+                            }
+                        }
+                    });
+
+                    // Tentukan link dan status tombol
+                    const shopLink = bestMatchProduct ? bestMatchProduct.product_url : '#';
+                    const shopBtnClass = bestMatchProduct ? 'btn-shop' : 'btn-shop disabled';
+                    const shopBtnText = bestMatchProduct ? `🛒 Get the Look` : 'Produk Tidak Tersedia';
+
+                    // 4. Buat HTML Kartu
+                    const cardHtml = `
+                        <div class="pin-card">
+                            <div class="pin-image-container">
+                                <img src="${look.image_url}" alt="${look.title}" class="pin-image" loading="lazy">
+                                <div class="pin-overlay">
+                                    <button class="btn-save" onclick="savePin('${look.id}', '${look.title}')">Simpan</button>
+                                </div>
+                            </div>
+                            <div class="pin-info">
+                                <span class="pin-user">@${look.user}</span>
+                                <h3 class="pin-title">${look.title}</h3>
+                                <p class="pin-desc">${look.description}</p>
+                                <a href="${shopLink}" target="_blank" class="${shopBtnClass}">
+                                    ${shopBtnText}
+                                </a>
+                            </div>
                         </div>
-
-                        <div class="pin-info">
-                            <span class="user-tag">@${item.user || 'InspiraUser'}</span>
-                            <div class="pin-title">${item.title}</div>
-                            <p class="x-small text-muted mb-0" style="font-size: 0.7rem;">${item.description}</p>
-                        </div>
-                    </div>`;
+                    `;
+                    grid.innerHTML += cardHtml;
                 });
-                gallery.innerHTML = html;
-            } catch (err) {
-                gallery.innerHTML = `<div class="alert alert-danger w-100">Gagal memuat galeri. Pastikan STB Online!</div>`;
+
+            } catch (error) {
+                console.error("Gagal memuat data:", error);
+                container.innerHTML = `
+                    <div class="alert alert-danger text-center shadow-sm border-0" style="background-color: #ffebee; color: #c62828;">
+                        <strong>Ups! Gagal memuat inspirasi.</strong><br>Pastikan semua layanan berjalan.
+                    </div>`;
             }
         }
 
-        // Fungsi Simpan ke Board (Profile)
-        function savePin(id) {
-            alert("Berhasil disimpan ke board profil kamu! (ID: " + id + ")");
-            // Di sini kamu bisa tambahkan logika LocalStorage jika mau benar-benar tersimpan di browser
+        // Fungsi Simpan (Contoh Sederhana)
+        function savePin(id, title) {
+            alert(`✨ "${title}" berhasil disimpan ke koleksi pribadimu!`);
+            // Di sini bisa ditambahkan logika ke LocalStorage atau API backend
         }
 
-        window.addEventListener('DOMContentLoaded', loadGallery);
+        // Jalankan saat halaman siap
+        window.addEventListener('DOMContentLoaded', initGallery);
     </script>
 </body>
 </html>

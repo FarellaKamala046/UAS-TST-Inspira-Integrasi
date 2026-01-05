@@ -26,7 +26,7 @@ class BoardController extends ResourceController
     {
         return $this->respond($this->model->findAll());
     }
-    // Endpoint 4: Add Pin to Board (POST /boards/{boardId}/pins)
+    // Endpoint 3: Add Pin to Board (POST /boards/{boardId}/pins)
     public function addLook($boardId = null)
     {
         $pinModel = new \App\Models\PinModel();
@@ -44,7 +44,7 @@ class BoardController extends ResourceController
         return $this->fail('Gagal menambah pin.');
     }
 
-    // Endpoint 3: Get Board Detail with Pins (GET /boards/{boardId})
+    // Endpoint 4: Get Board Detail with Pins (GET /boards/{boardId})
     public function show($id = null)
     {
         $board = $this->model->find($id);
@@ -72,8 +72,6 @@ class BoardController extends ResourceController
         if ($category) {
             $builder->where('pins.category', $category);
         }
-
-        // Kita group supaya board yang muncul tidak duplikat jika punya banyak pin match
         $builder->groupBy('boards.id');
         
         $data = $builder->get()->getResult();

@@ -31,15 +31,15 @@ class AuthController extends Controller {
         $user = $db->table('users')->where('email', $email)->get()->getRowArray();
 
         if ($user && password_verify($password, $user['password'])) {
-            // Buat Token acak (ini kunci buat akses API nantinya)
+            // Buat Token acak 
             $token = bin2hex(random_bytes(16)); 
             
-            // Simpan token ke database agar kita ingat user ini sudah login
+            // Simpan token ke database agar ingat user ini sudah login
             $db->table('users')->where('id', $user['id'])->update(['token' => $token]);
 
             return $this->response->setJSON([
                 'status' => 'success',
-                'token'  => $token, // Kasih token ini ke temenmu (Frontend)
+                'token'  => $token, 
                 'user'   => $user['username']
             ]);
         }

@@ -16,7 +16,7 @@ class Setup extends Controller
 
         // $forge->dropTable('pins', true);
         // $forge->dropTable('looks', true);
-        // Tabel Pins - Struktur Paling Rapi & Minimalis
+        // Tabel Looks 
         $db->query('CREATE TABLE looks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT,
@@ -32,7 +32,6 @@ class Setup extends Controller
             shopee_link TEXT,
             visibility TEXT DEFAULT "public"
         )');
-        // Tambahkan baris ini di dalam fungsi index() Setup.php
         $db->query('CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE,
@@ -49,7 +48,6 @@ class Setup extends Controller
         visibility TEXT DEFAULT "public"
     )');
 
-    // 4. Tabel Pins (Penghubung Board dan Look) <-- ERROR KAMU DI SINI TADI
     $db->query('CREATE TABLE pins (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         board_id INTEGER,

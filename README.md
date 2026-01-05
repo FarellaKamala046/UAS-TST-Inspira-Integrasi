@@ -1,7 +1,11 @@
 # Laporan Tugas 3: Inspira - Inspiration-to-Commerce Microservice Platform
+**Mata Kuliah: II3160 Teknologi Sistem Terintegrasi**
 
-Inspira merupakan sebuah platform layanan mikro (microservice) galeri fashion OOTD (Outfit of the Day) yang menjembatani proses eksplorasi inspirasi visual dengan pengambilan keputusan pembelian produk fashion secara langsung. 
+---
 
+**Inspira** merupakan sebuah platform layanan mikro (microservice) galeri fashion OOTD (Outfit of the Day) yang menjembatani proses eksplorasi inspirasi visual dengan pengambilan keputusan pembelian produk fashion secara langsung. 
+
+* **URL Layanan Terintegrasi:** https://uas-tst-inspira-integrasi.vercel.app/
 
 ---
 

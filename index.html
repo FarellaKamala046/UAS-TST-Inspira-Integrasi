@@ -522,10 +522,15 @@
     </div>
 
     <!-- NEW: Detail Modal -->
-    <div class="modal fade detail-modal" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div
+      class="modal fade detail-modal"
+      id="detailModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-          <div class="modal-header" style="border-bottom: 1px solid #f0f0f0;">
+          <div class="modal-header" style="border-bottom: 1px solid #f0f0f0">
             <div class="detail-top">
               <div class="soft-badge" aria-hidden="true">
                 <i data-feather="sparkles"></i>
@@ -559,10 +564,6 @@
                     <button class="btn-save-soft" id="dSaveBtn" type="button">
                       <i data-feather="bookmark"></i> Save
                     </button>
-
-                    <button class="btn-outline-soft" id="dGetLookBtn" type="button">
-                      <i data-feather="shopping-bag"></i> Get the Look
-                    </button>
                   </div>
 
                   <div class="mt-4">
@@ -573,7 +574,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -724,9 +724,7 @@
 
           pins.forEach((p) => {
             const key =
-              normalize(p.image_url || "") +
-              "||" +
-              normalize(p.title || "");
+              normalize(p.image_url || "") + "||" + normalize(p.title || "");
             if (key.trim() !== "||") set.add(key);
           });
 
@@ -752,7 +750,6 @@
         const dDesc = document.getElementById("dDesc");
 
         const dSaveBtn = document.getElementById("dSaveBtn");
-        const dGetLookBtn = document.getElementById("dGetLookBtn");
         const dProducts = document.getElementById("dProducts");
 
         dTitle.textContent = look.title || "Untitled";
@@ -770,7 +767,9 @@
             .map((product) => {
               return `
                 <div class="product-row">
-                    <img class="product-img" src="${product.image_url || ""}" alt="${product.name || "product"}" loading="lazy">
+                    <img class="product-img" src="${product.image_url || ""}" alt="${
+                product.name || "product"
+              }" loading="lazy">
                     <div class="product-meta">
                         <p class="product-name">${product.name || "-"}</p>
                         <div class="product-sub">
@@ -781,7 +780,9 @@
                         <div class="product-price">${toIDR(product.price)}</div>
                     </div>
                     <div class="d-flex align-items-center">
-                        <a class="btn-open" href="${product.product_url}" target="_blank" rel="noopener">
+                        <a class="btn-open" href="${
+                          product.product_url
+                        }" target="_blank" rel="noopener">
                             <i data-feather="shopping-bag"></i> Open
                         </a>
                     </div>
@@ -790,15 +791,6 @@
             })
             .join("");
         }
-
-        // Get the Look button behavior (open existing modal for full list)
-        const hasAny = matches.length > 0;
-        dGetLookBtn.disabled = !hasAny;
-        dGetLookBtn.classList.toggle("disabled", !hasAny);
-        dGetLookBtn.onclick = () => {
-          if (!hasAny) return;
-          openProductModal(look, matches);
-        };
 
         // Save button state (disable if already saved)
         const alreadySaved = savedSet.has(savedKeyForLook(look));
@@ -877,9 +869,8 @@
                                 class="btn-pin-icon"
                                 data-save-btn="${look.id}"
                                 ${isSaved ? "disabled" : ""}
-                                onclick="event.stopPropagation(); savePin(${look.id}, '${String(
-              look.title
-            ).replace(/'/g, "\\'")}')"
+                                onclick="event.stopPropagation;
+                              "
                                 title="${saveTitle}"
                               >
                                   <i data-feather="${saveIcon}"></i>
@@ -912,7 +903,14 @@
               </div>
             `;
 
-            grid.innerHTML += cardHtml;
+            // NOTE: biar 100% sama seperti punya kamu sebelumnya, aku balikin onclick savePin yang bener:
+            const safeTitle = String(look.title).replace(/'/g, "\\'");
+            const fixedCardHtml = cardHtml.replace(
+              'onclick="event.stopPropagation;\n                              "',
+              `onclick="event.stopPropagation(); savePin(${look.id}, '${safeTitle}')"`
+            );
+
+            grid.innerHTML += fixedCardHtml;
           });
 
           window.__LOOKS__ = looks;
@@ -933,7 +931,11 @@
               (l) => Number(l.id) === Number(lookId)
             );
             if (!look) return;
-            openDetailModal(look, window.__PRODUCTS__ || [], window.__SAVED_SET__ || new Set());
+            openDetailModal(
+              look,
+              window.__PRODUCTS__ || [],
+              window.__SAVED_SET__ || new Set()
+            );
           };
 
           feather.replace();

@@ -50,7 +50,7 @@
 
     <script>
         // 1. Memanggil API Inspira (STB kamu)
-        fetch('https://inspira_container.otwdochub.my.id/api/looks')
+        fetch('https://inspira-container.otwdochub.my.id/api/looks')
             .then(res => {
                 if (!res.ok) throw new Error('Server STB tidak merespon (404/500)');
                 return res.json();

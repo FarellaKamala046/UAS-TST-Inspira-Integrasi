@@ -409,6 +409,6 @@ class Setup extends Controller
 
         $db->table('looks')->insertBatch($data);
 
-        return "✅ Data Berhasil Masuk! Setiap baju punya banyak tags yang rapi untuk Shopee.";
+        return "✅ Data Berhasil Masuk! Setiap baju punya banyak tags yang rapi untuk Clothify.";
     }
 }

@@ -3,165 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integration Dashboard - Inspira X Clothify</title>
+    <title>Inspira - Pinterest Pink Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .card { transition: all 0.3s ease; border: none; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
-        .status-badge { font-size: 0.75rem; vertical-align: middle; }
-        .api-url { font-family: monospace; font-size: 0.7rem; color: #6c757d; word-break: break-all; }
-        .product-price { font-weight: bold; color: #198754; }
+        :root {
+            --pink-light: #fce4ec;
+            --pink-accent: #ff4d6d;
+            --pink-hover: #ff758f;
+        }
+        body { 
+            background-color: #fff5f7; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #4a4a4a;
+        }
+        /* Pinterest Masonry Grid */
+        .masonry-grid {
+            column-count: 2; /* 2 kolom di mobile */
+            column-gap: 15px;
+            padding: 15px;
+        }
+        @media (min-width: 768px) { .masonry-grid { column-count: 3; } }
+        @media (min-width: 1200px) { .masonry-grid { column-count: 4; } }
+
+        .pin-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            break-inside: avoid;
+            overflow: hidden;
+            border: 1px solid var(--pink-light);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .pin-card:hover { transform: scale(1.02); }
+        .pin-image { width: 100%; display: block; }
+
+        /* Button Overlay ala Pinterest */
+        .pin-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 15px; opacity: 0; transition: 0.3s;
+        }
+        .pin-card:hover .pin-overlay { opacity: 1; }
+
+        .btn-pin { 
+            background: var(--pink-accent); color: white; border: none;
+            border-radius: 20px; padding: 8px 15px; font-weight: bold; align-self: flex-end;
+        }
+        .btn-pin:hover { background: var(--pink-hover); color: white; }
+
+        .btn-shop {
+            background: white; color: black; border-radius: 20px;
+            padding: 8px 12px; font-size: 0.8rem; font-weight: bold; text-decoration: none;
+            display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .pin-info { padding: 12px; }
+        .user-tag { font-size: 0.75rem; color: var(--pink-accent); font-weight: bold; }
+        .pin-title { font-size: 0.9rem; font-weight: bold; margin-top: 4px; }
     </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h1 class="display-5 fw-bold text-primary">✨ Tugas 3: Integrasi Platform ✨</h1>
-            <p class="lead text-muted">Integrasi API OOTD (STB Armbian) & API Produk (Cloud)</p>
-            <div class="d-flex justify-content-center gap-2">
-                <span class="badge rounded-pill bg-dark">STB: Armbian</span>
-                <span class="badge rounded-pill bg-info text-dark">SSL: Cloudflare Tunnel</span>
-                <span class="badge rounded-pill bg-primary">Frontend: Vercel</span>
-            </div>
+<body>
+
+    <nav class="navbar bg-white sticky-top shadow-sm py-3 px-4 mb-4">
+        <h2 class="h5 fw-bold mb-0 text-primary">💖 Inspira <span class="text-muted fw-normal">X Clothify</span></h2>
+        <div class="d-flex gap-2">
+            <span class="badge bg-light text-dark rounded-pill border">OOTD STB</span>
         </div>
+    </nav>
 
-        <div class="row">
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100 shadow-sm p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                        <h3 class="h5 mb-0">📸 Inspiration Gallery</h3>
-                        <span id="status-inspira" class="badge bg-secondary status-badge">Checking...</span>
-                    </div>
-                    <p class="api-url mb-3">Endpoint: https://inspira-container.otwdochub.my.id/api/looks</p>
-                    
-                    <div id="inspira-list">
-                        <div class="text-center py-5">
-                            <div class="spinner-border text-primary" role="status"></div>
-                            <p class="mt-2 text-muted small">Menghubungi STB Armbian...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100 shadow-sm p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                        <h3 class="h5 mb-0">🛍️ Clothify Products</h3>
-                        <span id="status-clothify" class="badge bg-secondary status-badge">Checking...</span>
-                    </div>
-                    <p class="api-url mb-3">Endpoint: https://clothify.otwdochub.my.id/products</p>
-
-                    <div id="clothify-list">
-                        <div class="text-center py-5">
-                            <div class="spinner-border text-success" role="status"></div>
-                            <p class="mt-2 text-muted small">Mengambil katalog produk...</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="container-fluid">
+        <div id="pinterest-gallery" class="masonry-grid">
+            <div class="text-center w-100 py-5">
+                <div class="spinner-border text-pink-accent" role="status"></div>
+                <p class="mt-2 text-pink-accent">Gathering inspiration...</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Fungsi Helper untuk menangani Timeout agar tidak loading selamanya
-        async function fetchWithTimeout(resource, options = {}) {
-            const { timeout = 10000 } = options;
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            const response = await fetch(resource, { ...options, signal: controller.signal });
-            clearTimeout(id);
-            return response;
-        }
-
-        // --- 1. AMBIL DATA DARI STB ANDA (INSPIRA) ---
-        async function loadInspira() {
-            const listDiv = document.getElementById('inspira-list');
-            const statusBadge = document.getElementById('status-inspira');
-            
+        async function loadGallery() {
+            const gallery = document.getElementById('pinterest-gallery');
             try {
-                const response = await fetchWithTimeout('https://inspira-container.otwdochub.my.id/api/looks');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
+                // Fetch data dari API kamu
+                const response = await fetch('https://inspira-container.otwdochub.my.id/api/looks');
                 const result = await response.json();
-                // Inspira menggunakan properti "data"
-                const looks = result.data || []; 
+                const looks = result.data || [];
 
-                if (looks.length === 0) {
-                    listDiv.innerHTML = '<div class="alert alert-info small">Database STB kosong.</div>';
-                } else {
-                    let html = '';
-                    looks.slice(0, 5).forEach(item => {
-                        html += `
-                        <div class="card mb-3 border-start border-4 border-primary bg-light shadow-sm">
-                            <div class="card-body py-2">
-                                <h6 class="fw-bold mb-1">${item.title || 'Untitled'}</h6>
-                                <p class="small text-muted mb-0">${item.description || 'No description available'}</p>
-                            </div>
-                        </div>`;
-                    });
-                    listDiv.innerHTML = html;
-                }
-                statusBadge.className = "badge bg-success status-badge";
-                statusBadge.innerText = "Online";
+                let html = '';
+                looks.forEach(item => {
+                    // Logika Tag: Ambil tag pertama untuk link Shopee
+                    const tag = item.item_details && item.item_details[0] ? item.item_details[0].tags[0] : 'fashion';
+                    const shopeeLink = `https://clothify.otwdochub.my.id/products`; // Arahkan ke teman
 
+                    html += `
+                    <div class="pin-card shadow-sm">
+                        <img src="${item.image_url}" class="pin-image" alt="${item.title}">
+                        
+                        <div class="pin-overlay">
+                            <button class="btn-pin" onclick="savePin(${item.id})">Save</button>
+                            <a href="${shopeeLink}" target="_blank" class="btn-shop">🛒 Get the Look</a>
+                        </div>
+
+                        <div class="pin-info">
+                            <span class="user-tag">@${item.user || 'InspiraUser'}</span>
+                            <div class="pin-title">${item.title}</div>
+                            <p class="x-small text-muted mb-0" style="font-size: 0.7rem;">${item.description}</p>
+                        </div>
+                    </div>`;
+                });
+                gallery.innerHTML = html;
             } catch (err) {
-                statusBadge.className = "badge bg-danger status-badge";
-                statusBadge.innerText = "Offline/CORS Error";
-                listDiv.innerHTML = `
-                <div class="alert alert-danger shadow-sm py-2">
-                    <strong class="d-block small">⚠️ Koneksi Gagal</strong>
-                    <p class="mb-0 small">${err.message === 'AbortError' ? 'Timeout (STB lambat)' : err.message}</p>
-                    <p class="mt-2 mb-0 x-small text-secondary">Solusi: Pastikan header OPTIONS di BaseController.php sudah dipull & container direstart.</p>
-                </div>`;
+                gallery.innerHTML = `<div class="alert alert-danger w-100">Gagal memuat galeri. Pastikan STB Online!</div>`;
             }
         }
 
-        // --- 2. AMBIL DATA DARI TEMAN (CLOTHIFY) ---
-        async function loadClothify() {
-            const listDiv = document.getElementById('clothify-list');
-            const statusBadge = document.getElementById('status-clothify');
-
-            try {
-                const response = await fetchWithTimeout('https://clothify.otwdochub.my.id/products');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-                const result = await response.json();
-                // Clothify menggunakan properti "products", bukan "data"
-                const prods = result.products || []; 
-
-                if (prods.length === 0) {
-                    listDiv.innerHTML = '<div class="alert alert-info small">Katalog produk teman kosong.</div>';
-                } else {
-                    let html = '';
-                    prods.slice(0, 5).forEach(p => {
-                        html += `
-                        <div class="card mb-3 border-start border-4 border-success bg-light shadow-sm">
-                            <div class="card-body py-2 d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="fw-bold mb-0 small">${p.name || p.title}</h6>
-                                    <span class="product-price small">Rp ${(p.price || 0).toLocaleString()}</span>
-                                </div>
-                                <span class="badge bg-outline-success text-success border border-success x-small">Market</span>
-                            </div>
-                        </div>`;
-                    });
-                    listDiv.innerHTML = html;
-                }
-                statusBadge.className = "badge bg-success status-badge";
-                statusBadge.innerText = "Connected";
-
-            } catch (err) {
-                statusBadge.className = "badge bg-warning text-dark status-badge";
-                statusBadge.innerText = "Error";
-                listDiv.innerHTML = `<div class="alert alert-warning py-2 small">⚠️ Gagal mengambil Clothify: ${err.message}</div>`;
-            }
+        // Fungsi Simpan ke Board (Profile)
+        function savePin(id) {
+            alert("Berhasil disimpan ke board profil kamu! (ID: " + id + ")");
+            // Di sini kamu bisa tambahkan logika LocalStorage jika mau benar-benar tersimpan di browser
         }
 
-        // Eksekusi saat halaman dimuat
-        window.addEventListener('DOMContentLoaded', () => {
-            loadInspira();
-            loadClothify();
-        });
+        window.addEventListener('DOMContentLoaded', loadGallery);
     </script>
 </body>
 </html>

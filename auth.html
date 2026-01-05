@@ -29,7 +29,6 @@
             max-width: 400px; 
             text-align: center;
         }
-        /* PERBAIKAN LOGO: Diperbesar sesuai request */
         .auth-logo { 
             width: 110px; 
             height: auto; 
@@ -91,8 +90,6 @@
 
     <script>
         let isLogin = true;
-
-        // Fungsi Tukar tampilan Login/Register
         function toggleAuth() {
             isLogin = !isLogin;
             const title = document.getElementById('auth-title');
@@ -117,7 +114,6 @@
             
             const endpoint = isLogin ? '/api/login' : '/api/register';
             
-            // Menggunakan FormData karena AuthController menggunakan getPost()
             const formData = new FormData();
             formData.append('email', email);
             formData.append('password', password);
@@ -135,17 +131,16 @@
                 
                 if (data.status === 'success') {
                     if (isLogin) {
-                        // SIMPAN SEMUA DATA (id, token, user_name)
+                       
                         localStorage.setItem('token', data.token);
-                        localStorage.setItem('id', data.id); // PENTING: Untuk fitur Save
-                        localStorage.setItem('user_name', data.user); // PENTING: Untuk Profile
+                        localStorage.setItem('id', data.id); 
+                        localStorage.setItem('user_name', data.user); 
                         
-                        window.location.href = 'index.html'; // Pindah ke Home
+                        window.location.href = 'index.html'; 
                     } else {
-                        // ALUR REGISTER: Beri notifikasi lalu pindah ke mode Login otomatis
                         alert("Registrasi Berhasil! Silakan Login menggunakan akun baru Anda.");
                         toggleAuth(); 
-                        document.getElementById('password').value = ""; // Kosongkan password demi keamanan
+                        document.getElementById('password').value = ""; 
                     }
                 } else {
                     alert("Error: " + (data.message || "Gagal memproses permintaan."));

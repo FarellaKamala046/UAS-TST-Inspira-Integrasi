@@ -29,14 +29,13 @@
         color: var(--text-dark);
       }
 
-      /* --- HEADER (MODIFIKASI: space-between agar tombol ke kanan) --- */
       .navbar-custom {
         background: white;
         box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
         padding: 10px 30px;
         height: 74px;
         display: flex;
-        justify-content: space-between; /* Diubah agar tombol di kanan */
+        justify-content: space-between; 
         align-items: center;
         position: sticky;
         top: 0;
@@ -49,7 +48,7 @@
         align-items: center;
         gap: 6x;
         line-height: 1;
-        text-decoration: none; /* Tambahan agar link tidak bergaris bawah */
+        text-decoration: none; 
       }
 
       .header-logo {
@@ -74,7 +73,6 @@
         -webkit-text-fill-color: transparent;
       }
 
-      /* --- NAV ACTIONS (TAMBAHAN) --- */
       .nav-actions {
         display: flex;
         align-items: center;
@@ -111,7 +109,6 @@
         border-color: #dc3545;
       }
 
-      /* --- LAYOUT --- */
       .page-wrap {
         max-width: 1320px;
         margin: 0 auto;
@@ -362,7 +359,6 @@
         color: var(--text-muted);
       }
 
-      /* --- NEW: Detail Modal (soft Inspira vibes) --- */
       .detail-modal .modal-content {
         border-radius: 22px;
       }
@@ -494,7 +490,7 @@
       </div>
     </div>
 
-    <!-- Existing Product Modal (keep) -->
+
     <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -521,7 +517,6 @@
       </div>
     </div>
 
-    <!-- NEW: Detail Modal -->
     <div
       class="modal fade detail-modal"
       id="detailModal"
@@ -598,7 +593,7 @@
         }).format(num);
       };
 
-      // --- LOGIKA AUTH (TAMBAHAN) ---
+ 
       function checkAuth() {
         const token = localStorage.getItem("token");
         const loginLink = document.getElementById("login-link");
@@ -621,7 +616,7 @@
         window.location.reload();
       }
 
-      // --- NAV ACTIVE STATE (Home / Profile) ---
+  
       function setActiveNav() {
         const path = window.location.pathname;
         const homeLink = document.getElementById("nav-home");
@@ -708,7 +703,7 @@
         bsModal.show();
       }
 
-      // --- SAVED LOOK IDS (to disable Save) ---
+  
       async function fetchSavedLookIds() {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("id");
@@ -740,7 +735,7 @@
         );
       }
 
-      // --- DETAIL MODAL LOGIC ---
+
       function openDetailModal(look, products, savedSet) {
         const modalEl = document.getElementById("detailModal");
 
@@ -759,7 +754,7 @@
 
         const matches = getStrictMatches(look, products);
 
-        // Render products inside detail modal (same vibe)
+
         if (!matches.length) {
           dProducts.innerHTML = `<div class="empty-state">No items matched.</div>`;
         } else {
@@ -792,7 +787,6 @@
             .join("");
         }
 
-        // Save button state (disable if already saved)
         const alreadySaved = savedSet.has(savedKeyForLook(look));
         dSaveBtn.disabled = alreadySaved;
         dSaveBtn.innerHTML = alreadySaved
@@ -806,7 +800,7 @@
             savedSet.add(savedKeyForLook(look));
             dSaveBtn.disabled = true;
             dSaveBtn.innerHTML = `<i data-feather="check"></i> Saved`;
-            // also update overlay save button (if exists)
+
             const overlayBtn = document.querySelector(
               `[data-save-btn="${look.id}"]`
             );
@@ -903,7 +897,6 @@
               </div>
             `;
 
-            // NOTE: biar 100% sama seperti punya kamu sebelumnya, aku balikin onclick savePin yang bener:
             const safeTitle = String(look.title).replace(/'/g, "\\'");
             const fixedCardHtml = cardHtml.replace(
               'onclick="event.stopPropagation;\n                              "',
@@ -945,7 +938,6 @@
         }
       }
 
-      // --- LOGIKA SAVE (MODIFIKASI: Mengirim data ke API) ---
       async function savePin(lookId, title, silent = false) {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("id");

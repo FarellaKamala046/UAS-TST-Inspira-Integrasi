@@ -325,7 +325,6 @@
         }).format(num);
       };
 
-      // ambil look_data kalau API ngirimnya nested / string JSON
       function normalizePin(pin) {
         let lookData = pin?.look_data;
 
@@ -337,16 +336,16 @@
           }
         }
 
-        // merge: field langsung di pin tetep kepake, tapi look_data bisa ngisi yang kosong
+
         const merged = {
           ...pin,
           ...(lookData && typeof lookData === "object" ? lookData : {}),
         };
 
-        // pastiin tipe aman
+
         merged.title = merged.title ?? "";
         merged.description = merged.description ?? "";
-        merged.user = merged.user ?? ""; // ini harus username ORANG ITU (bukan username kamu)
+        merged.user = merged.user ?? ""; 
         merged.image_url = merged.image_url ?? "";
         merged.tags = merged.tags ?? null;
         merged.item_details = merged.item_details ?? null;
@@ -362,11 +361,9 @@
           .filter(Boolean);
       }
 
-      // STRICT MATCHING (kalau item_details ada). Kalau gak ada, ya memang gak bisa strict-match.
       function getStrictMatches(look, products) {
         let details = look?.item_details;
 
-        // handle kalau item_details string JSON
         if (typeof details === "string") {
           try {
             details = JSON.parse(details);
@@ -485,7 +482,6 @@
         const products = window.__GLOBAL_PRODUCTS__ || [];
         if (!pin) return;
 
-        // ini yang kamu mau: username harus username ORANG ITU (dari pin.user), bukan username kamu
         const displayUser = pin.user ? `@${pin.user}` : "@unknown";
 
         document.getElementById("mTitle").innerText = pin.title || "No Title";
